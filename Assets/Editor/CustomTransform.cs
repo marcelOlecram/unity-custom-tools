@@ -7,11 +7,19 @@ using UnityEditor.AnimatedValues;
 public class CustomTransform : Editor
 {
     #region variables
+    // TODO re-arrange variables for order
     private Transform _transform;
     private static bool quaternionFoldout = false;
     private static bool positionFoldout = false;
     private static bool rotationFoldout = false;
     private static bool scaleFoldout = false;
+
+    private GUILayoutOption[] buttonOptions = new GUILayoutOption[2] { GUILayout.Width(200f), GUILayout.MinWidth(100f) };
+
+    private Vector3 minPos, maxPos;
+    private bool posConstraintX, posConstraintY, posConstraintZ;
+    private bool rotConstraintX, rotConstraintY, rotConstraintZ;
+    private float minScale = 1f, maxScale = 2f;
 
     #endregion
 
@@ -24,6 +32,7 @@ public class CustomTransform : Editor
         EditorGUILayout.Space();
         StandardTransformInspector();
         // todo reset position and else
+        ResetTransformDataInspector();
         QuaternionInspector();
         PositionInspector();
         RotationInspector();
@@ -33,6 +42,46 @@ public class CustomTransform : Editor
     #endregion
 
     #region My Methods
+    private void ResetTransformDataInspector()
+    {
+        bool resetPos, resetRot, resetSca, resetAll;
+        EditorGUILayout.BeginHorizontal();
+        resetPos = Button("Reset Position");
+        resetRot = Button("Reset Rotation");
+        resetSca = Button("Reset Scale");
+        resetAll = Button("Reset All");
+        EditorGUILayout.EndHorizontal();
+        Transform[] selectedTransforms = Selection.transforms;
+        if (selectedTransforms.Length >= 1)
+        {
+            foreach (var item in selectedTransforms)
+            {
+                if (resetPos)
+                {
+                    item.localPosition = Vector3.zero;
+                    continue;
+                }
+                if (resetRot)
+                {
+                    item.localEulerAngles = Vector3.zero;
+                    continue;
+                }
+                if (resetAll)
+                {
+                    item.localScale = Vector3.one;
+                    continue;
+                }
+                if (resetAll)
+                {
+                    item.localPosition = Vector3.zero;
+                    item.localEulerAngles = Vector3.zero;
+                    item.localScale = Vector3.one;
+                    continue;
+                }
+            }
+        }
+    }
+
     private void RealWorldPosition()
     {
         bool didPositionChange = false;
@@ -145,10 +194,6 @@ public class CustomTransform : Editor
         }
     }
 
-    private Vector3 minPos, maxPos;
-    private bool posConstraintX, posConstraintY, posConstraintZ;
-    private bool rotConstraintX, rotConstraintY, rotConstraintZ;
-    private float minScale, maxScale;
     private void PositionInspector()
     {
         positionFoldout = EditorGUILayout.Foldout(positionFoldout, "Position");
@@ -231,13 +276,14 @@ public class CustomTransform : Editor
 
     private void ScaleInpector()
     {
-        scaleFoldout = EditorGUILayout.Foldout(scaleFoldout, "Rotation");
+        scaleFoldout = EditorGUILayout.Foldout(scaleFoldout, "Scale");
         if (scaleFoldout)
         {
             EditorGUILayout.LabelField("Random Scale", EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Scale contraint");
-            minScale = EditorGUILayout.FloatField("min scale", minScale, GUILayout.Width(100));
-            maxScale = EditorGUILayout.FloatField("max scale", maxScale, GUILayout.Width(100));
+            minScale = EditorGUILayout.FloatField("Min scale:", minScale);
+            maxScale = EditorGUILayout.FloatField("Max scale:", maxScale);
+            
 
             Vector3 newScale;
             if (Button("Random Scale"))
@@ -277,8 +323,8 @@ public class CustomTransform : Editor
     {
         return new Vector4(q.x, q.y, q.z, q.w);
     }
+    
 
-    private GUILayoutOption[] buttonOptions = new GUILayoutOption[1] { GUILayout.Width(200f) };
     private bool Button(string label)
     {
         GUILayout.BeginHorizontal();
