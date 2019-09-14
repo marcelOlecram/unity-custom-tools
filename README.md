@@ -1,8 +1,11 @@
 # Unity custom transfor inspector
 A unity custom inespector adding functionality to Transform component.
 ----
+## About
 The original idea came from this [tutorial](http://naplandgames.com/blog/2016/08/27/unity-3d-tutorial-custom-transform-inspector/).
 The purpose of this repository is to expand functionality.
+
+The project uses a [MIT License](https://github.com/marcelOlecram/unity-custom-transform/blob/master/LICENSE). Use it as you want it
 
 The basic Transform inspector in Unity only provides Position, Rotation and Scale information. This custom transform inspector, expand from this, adding:
 
