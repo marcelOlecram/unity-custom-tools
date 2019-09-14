@@ -1,4 +1,5 @@
 # Unity custom transfor inspector
+
 A unity custom inespector adding functionality to Transform component.
 ----
 ## About
@@ -20,6 +21,6 @@ The basic Transform inspector in Unity only provides Position, Rotation and Scal
 
 ## todo repository in general
 - show images maybe gifs explaining functions
-## todo in code
-- refactor code, re arrange variables for order
-- make unity package
+- subdivide in more tools
+- tool to add Joystick to Input Manager
+
