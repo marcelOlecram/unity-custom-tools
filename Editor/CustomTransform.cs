@@ -8,14 +8,16 @@ public class CustomTransform : Editor
 {
     #region variables
     // TODO re-arrange variables for order
+    // Store selected transform;
     private Transform _transform;
-    private static bool quaternionFoldout = false;
+    // Foldouts
+    private static bool quaternionFoldout = false;  
     private static bool positionFoldout = false;
     private static bool rotationFoldout = false;
     private static bool scaleFoldout = false;
-
+    // Button properties
     private GUILayoutOption[] buttonOptions = new GUILayoutOption[2] { GUILayout.Width(200f), GUILayout.MinWidth(100f) };
-
+    // Used variables
     private Vector3 minPos, maxPos;
     private bool posConstraintX, posConstraintY, posConstraintZ;
     private bool rotConstraintX, rotConstraintY, rotConstraintZ;
@@ -31,7 +33,6 @@ public class CustomTransform : Editor
         RealWorldPosition();
         EditorGUILayout.Space();
         StandardTransformInspector();
-        // todo reset position and else
         ResetTransformDataInspector();
         QuaternionInspector();
         PositionInspector();
@@ -42,6 +43,11 @@ public class CustomTransform : Editor
     #endregion
 
     #region My Methods
+
+    #region inspectors
+    /// <summary>
+    /// Shows buttons to reset trasnform properties
+    /// </summary>
     private void ResetTransformDataInspector()
     {
         bool resetPos, resetRot, resetSca, resetAll;
@@ -82,6 +88,9 @@ public class CustomTransform : Editor
         }
     }
 
+    /// <summary>
+    /// Shows the real world position
+    /// </summary>
     private void RealWorldPosition()
     {
         bool didPositionChange = false;
@@ -99,19 +108,17 @@ public class CustomTransform : Editor
             _transform.position = worldPosition;
         }
     }
+
+    /// <summary>
+    /// Recreates the usual transform inspector
+    /// </summary>
     private void StandardTransformInspector()
     {
         bool didPositionChange = false;
         bool didRotationChange = false;
         bool didScaleChange = false;
 
-        // Watch for changes.
-        //  1)  Float values are imprecise, so floating point error may cause changes
-        //      when you've not actually made a change.
-        //  2)  This allows us to also record an undo point properly since we're only
-        //      recording when something has changed.
-
-        // Store current values for checking later
+        // keep current transfor values
         Vector3 initialLocalPosition = _transform.localPosition;
         Vector3 initialLocalEuler = _transform.localEulerAngles;
         Vector3 initialLocalScale = _transform.localScale;
@@ -131,7 +138,7 @@ public class CustomTransform : Editor
         if (EditorGUI.EndChangeCheck())
             didScaleChange = true;
 
-        // Apply changes with record undo
+        // apply changes to selected object
         if (didPositionChange || didRotationChange || didScaleChange)
         {
             Undo.RecordObject(_transform, _transform.name);
@@ -147,8 +154,7 @@ public class CustomTransform : Editor
 
         }
 
-        // Since BeginChangeCheck only works on the selected object
-        // we need to manually apply transform changes to all selected objects.
+        // apply changes to selected objects        
         Transform[] selectedTransforms = Selection.transforms;
         if (selectedTransforms.Length > 1)
         {
@@ -179,6 +185,9 @@ public class CustomTransform : Editor
         }
     }
 
+    /// <summary>
+    /// Shows Quaternion inspector with possibily to edit directly
+    /// </summary>
     private void QuaternionInspector()
     {
         quaternionFoldout = EditorGUILayout.Foldout(quaternionFoldout, "Quaternion Rotation:  " + _transform.localRotation.ToString("F3"));
@@ -194,6 +203,9 @@ public class CustomTransform : Editor
         }
     }
 
+    /// <summary>
+    /// Shows position tools to randomize position
+    /// </summary>
     private void PositionInspector()
     {
         positionFoldout = EditorGUILayout.Foldout(positionFoldout, "Position");
@@ -235,6 +247,9 @@ public class CustomTransform : Editor
         }
     }
 
+    /// <summary>
+    /// Shows rotation tools to randomize rotation
+    /// </summary>
     private void RotationInspector()
     {
         rotationFoldout = EditorGUILayout.Foldout(rotationFoldout, "Rotation");
@@ -274,6 +289,9 @@ public class CustomTransform : Editor
         }
     }
 
+    /// <summary>
+    /// Shows scale tools to randomize scale in a uniform way
+    /// </summary>
     private void ScaleInpector()
     {
         scaleFoldout = EditorGUILayout.Foldout(scaleFoldout, "Scale");
@@ -299,6 +317,8 @@ public class CustomTransform : Editor
             }
         }        
     }
+
+    #region help methods
 
     private Vector3 ApplyChangesOnly(Vector3 toApply, Vector3 initial, Vector3 changed)
     {
@@ -334,5 +354,9 @@ public class CustomTransform : Editor
         GUILayout.EndHorizontal();
         return value;
     }
+    #endregion
+
+    #endregion
+
     #endregion
 }
