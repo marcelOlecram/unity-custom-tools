@@ -55,6 +55,8 @@ public class CustomTransform : Editor
         resetPos = Button("Reset Position");
         resetRot = Button("Reset Rotation");
         resetSca = Button("Reset Scale");
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.BeginHorizontal();
         resetAll = Button("Reset All");
         EditorGUILayout.EndHorizontal();
         Transform[] selectedTransforms = Selection.transforms;
@@ -64,21 +66,25 @@ public class CustomTransform : Editor
             {
                 if (resetPos)
                 {
+                    Debug.Log("Resetting position");
                     item.localPosition = Vector3.zero;
                     continue;
                 }
                 if (resetRot)
                 {
+                    Debug.Log("Resetting rotation");
                     item.localEulerAngles = Vector3.zero;
                     continue;
                 }
-                if (resetAll)
+                if (resetSca)
                 {
+                    Debug.Log("Resetting scale");
                     item.localScale = Vector3.one;
                     continue;
                 }
                 if (resetAll)
                 {
+                    Debug.Log("Resetting All transform");
                     item.localPosition = Vector3.zero;
                     item.localEulerAngles = Vector3.zero;
                     item.localScale = Vector3.one;
@@ -346,6 +352,15 @@ public class CustomTransform : Editor
     
 
     private bool Button(string label)
+    {
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        bool value = GUILayout.Button(label, buttonOptions);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+        return value;
+    }
+    private bool Button(string label, GUILayoutOption[] buttonOptions)
     {
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
