@@ -1,0 +1,7 @@
+{
+    "name": "com.arcmoel.customtransforminspector",
+    "displayName": "Custom Transform Inspector",
+    "version": "0.0.1",
+    "unity": "2019.1",
+    "description": "Custom inpsector for transform component adding functionality"
+}
