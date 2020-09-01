@@ -1,18 +1,13 @@
-# Unity custom tools
+# Transform Editor Additional Tools
 
-Tools for unity editor, to expand functionality.
+A Custom inspector for Unity's Transform component designed to expand functionality
 ----
 ## About
-The custom transfor inspector idea came from this [tutorial](http://naplandgames.com/blog/2016/08/27/unity-3d-tutorial-custom-transform-inspector/).
-
-The custom input manager come from the necessity to add easily new joysticks or any input element the fastest way possible
-The purpose of this repository is to expand functionality.
+Main idea based on this [tutorial](http://naplandgames.com/blog/2016/08/27/unity-3d-tutorial-custom-transform-inspector/).
 
 The project uses a [MIT License](https://github.com/marcelOlecram/unity-custom-transform/blob/master/LICENSE). Use it as you want it
 
-The basic Transform inspector in Unity only provides Position, Rotation and Scale information. This custom transform inspector, expand from this, adding:
-
-###  Custom Transform Inspector
+The basic Transform inspector in Unity only provides Position, Rotation and Scale information. This custom inspector, expand from this, adding:
 
 - Real world position of the GameObject (instead of the relative position to theri parent)
 - A quaternion foldout (which is main idea from the tutorial linked above).
@@ -22,12 +17,6 @@ The basic Transform inspector in Unity only provides Position, Rotation and Scal
     - Random rotation (calculated in EulerAngles from 0 to 360 degress), with Axis contraint
     - Random scale (calculated between two floats, this random scale is applied to all xis). Keeping uniformity
 
-###  Custom Transform Inspector
-
-Provides a new Window in unity under "Window tab" to easily add new Input elements to Unity InputManager
-
-## todo repository in general
-- show images maybe gifs explaining functions
+## Ideas to add in future
+- make repo more presentable
 - subdivide in more tools
-- tool to add Joystick to Input Manager
-
